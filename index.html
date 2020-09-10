@@ -108,8 +108,6 @@
 
             $(this).parent().remove();
             let my_list = JSON.parse(localStorage.getItem("myList"));
-            console.log(my_list);
-            console.log(my_list.indexOf($(this).parents().html()));
             my_list.splice(my_list.indexOf($(this).parents().html()), 1);
             localStorage.clear();
             localStorage.setItem("myList", JSON.stringify(my_list));
