@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="mycss.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <title>My todo</title>
+</head>
+
+<body>
+
+
+  <div class="allpage">
+    <div class="middle">
+      <h3>Add Your Todo</h3>
+      <div class="inp">
+        <input class="inputs" type="text" placeholder="Your todo" minlength="2">
+        <button class="btn">+</button>
+      </div> <br>
+      <div class="text">
+        <ul>
+          <li> Book a car <i class="fas fa-trash"></i></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="massage">
+    <div class="alert">
+      <span class="closebtn">&times;</span>
+      <strong>Warning!</strong> please write something.
+    </div>
+    <input type="email" name="" id="" required>
+  </div>
+
+
+  <script src="../Youtube/layout 1/js/jquery.js"></script>
+  <script>
+    $(document).ready(() => {
+
+      let color = () => {
+        let li = $(".text ul li");
+        li.each((index, ele) => {
+          let r = Math.floor(Math.random() * 255) + 1;
+          let g = Math.floor(Math.random() * 255) + 1;
+          let b = Math.floor(Math.random() * 255) + 1;
+          $(ele).css("background", `rgba(${r},${g},${b},.5`);
+        });
+      };
+
+      color();
+      let aryList = [];
+      $(".btn").click(function () {
+        //adding delet icon
+        let li = document.createElement("li");
+
+        //random color
+        let r = Math.floor(Math.random() * 255) + 1;
+        let g = Math.floor(Math.random() * 255) + 1;
+        let b = Math.floor(Math.random() * 255) + 1;
+        $(li).css("background", `rgba(${r},${g},${b},.5`);
+
+
+        //value form input fiels
+        let value = $(".inputs").val();
+
+        if (value.length <= 3 || value == '') {
+          $(".massage").show(100);
+        } else {
+          //empty input field
+          $(".inputs").val('');
+
+          //empty array
+
+          aryList.length = 0;
+
+          //adding list
+          $(".text ul").append(`<li class='ul-List' style="background: rgba(${r},${g},${b}, 0.5);">${value}<i
+               class="fas fa-trash" aria-hidden="true"></i> </li>`);
+        };
+
+        let list = document.querySelectorAll(".ul-List");
+        list.forEach((all) => {
+          aryList.push(all.innerHTML);
+        });
+        localStorage.setItem("myList", JSON.stringify(aryList));
+      });
+
+
+
+      $(".closebtn").click(() => {
+        $(".massage").css("display", "none");
+      });
+
+
+
+      //deleting list
+      $(document).on("click", "li i", function () {
+        setTimeout(() => {
+          $(this).parent().css({
+            "transition": "all .3s linear",
+            "transform": "translateX(-350px)"
+          });
+          setTimeout(() => {
+
+            $(this).parent().remove();
+            let my_list = JSON.parse(localStorage.getItem("myList"));
+            console.log(my_list);
+            console.log(my_list.indexOf($(this).parents().html()));
+            my_list.splice(my_list.indexOf($(this).parents().html()), 1);
+            localStorage.clear();
+            localStorage.setItem("myList", JSON.stringify(my_list));
+
+          }, 1000);
+        }, 10);
+
+      });
+
+    });
+    if (localStorage.getItem("myList") != null) {
+      let mylist = JSON.parse(localStorage.getItem("myList"));
+
+      mylist.forEach((all) => {
+        let r = Math.floor(Math.random() * 255) + 1;
+        let g = Math.floor(Math.random() * 255) + 1;
+        let b = Math.floor(Math.random() * 255) + 1;
+        $(".text ul").append(
+          `<li class='ul-List' style="background: rgba(${r},${g},${b}, 0.5);">${all}</li>`
+        );
+      })
+    }
+  </script>
+
+</body>
+
+</html>
